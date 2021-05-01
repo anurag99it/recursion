@@ -1,4 +1,4 @@
-// first turn one gets optimal max sum of numbers when chosen fairly from both sides with an opponent .
+// first turn one gets optimal max sum of numbers when chosen smartly from both sides with an opponent .
 /* package codechef; // don't place package name! */
 
 import java.util.*;
