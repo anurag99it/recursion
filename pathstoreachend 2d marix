@@ -1,0 +1,16 @@
+#include <bits/stdc++.h>
+using namespace std;
+ 
+int noofways(int r,int c){
+    if(r==1 || c==1)
+      return 1;
+    return noofways(r-1,c) + noofways(r,c-1);
+} 
+int main() {
+	// your code goes here
+	// enter matrix size;
+	int rows=3;
+	int columns=3;
+	cout<<noofways(rows,columns);
+	return 0;
+}
