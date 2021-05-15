@@ -1,0 +1,122 @@
+#include <bits/stdc++.h>
+#define f(n) for(int i=0;i<n;i++)
+using namespace std;
+
+struct node{
+    int d;
+    node *l,*r;
+    
+};
+bool ancestors(node *root,int v){
+    if(root==NULL) 
+      return false;
+    if(root->d==v)
+      return true;
+    
+    if(ancestors(root->l,v)==true || ancestors(root->r,v)==true){
+       cout<<root->d;
+       return true;
+    }
+    return false;
+}
+node* newnode(int data)
+{
+    node *temp = new node;
+    temp->d = data;
+    temp->l = temp->r = NULL;
+    return temp;
+}
+void leftview(node *r){
+    if(r==NULL)
+     return ;
+    queue<node*> q;
+    q.push(r);
+    while(q.empty()==false){
+        node *n=q.front();
+        cout<<n->d;
+        q.pop();
+        if(n->l!=NULL)
+          q.push(n->l);
+        else if(n->r!=NULL)
+          q.push(n->r);
+    }
+}
+int maxwidth(node *r){
+    if(r==NULL)
+     return 0;
+    queue<node*> q;
+    q.push(r);
+    int ans=0;
+    while(q.empty()==false){
+        int count=q.size();
+        ans=max(count,ans);
+        node *n=q.front();
+        q.pop();
+        if(n->l!=NULL)
+          q.push(n->l);
+        if(n->r!=NULL)
+          q.push(n->r);
+    }
+    return ans;
+}
+int search(int in[],int st,int e,int data){
+    for(int i=st;i<e;i++)
+     if(in[i]==data)
+       return i;
+}
+node *inpretotree(int in[],int pre[],int start,int end){
+    int static precount=0;
+    if(start>end)
+      return NULL;
+    node *temp=newnode(pre[precount++]);  
+    if(start==end)
+      return temp;
+    int di=search(in,start,end,temp->d);
+    temp->l=inpretotree(in,pre,start,di-1);
+    temp->r=inpretotree(in,pre,di+1,end);
+    return temp;  
+}
+int height(node *r){
+    if(r==NULL)
+     return 0;
+    return 1+max(height(r->l),height(r->r)); 
+}
+void kthlevel(node *root,int k){
+	if(root==NULL)
+	 return ;
+	if(k==0){
+	  cout<<root->d;
+	  return ;
+    }
+	else{
+	kthlevel(root->l,k-1);
+	kthlevel(root->r,k-1);
+    }
+}
+void inorder(node *root){
+    node *temp=root;
+    stack<node *> s;
+    while(temp!=NULL || s.empty()==false){
+        while(temp!=NULL){
+          s.push(temp);
+          temp=temp->l;
+        }
+        temp=s.top();
+        s.pop();
+        cout<<temp->d;
+        temp=temp->r;
+        }
+}
+int main() {
+	// your code goes here
+    node *root = newnode(1);				//          1
+    root->l = newnode(2);				//             / \          /
+    root->r = newnode(3);				//	 	     2    3
+    root->l->l = newnode(4);			//          /\     \        /
+    root->l->r = newnode(5);			//         4  5		8
+    root->r->r = newnode(8);			//                 / \         /
+    root->r->r->l = newnode(6);			//                6   7  
+    root->r->r->r = newnode(7);
+	ancestors(root,6);
+    return 0;
+}
