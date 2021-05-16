@@ -7,18 +7,6 @@ struct node{
     node *l,*r;
     
 };
-bool ancestors(node *root,int v){
-    if(root==NULL) 
-      return false;
-    if(root->d==v)
-      return true;
-    
-    if(ancestors(root->l,v)==true || ancestors(root->r,v)==true){
-       cout<<root->d;
-       return true;
-    }
-    return false;
-}
 node* newnode(int data)
 {
     node *temp = new node;
@@ -26,7 +14,7 @@ node* newnode(int data)
     temp->l = temp->r = NULL;
     return temp;
 }
-void leftview(node *r){
+void bfs(node *r){
     if(r==NULL)
      return ;
     queue<node*> q;
@@ -37,8 +25,28 @@ void leftview(node *r){
         q.pop();
         if(n->l!=NULL)
           q.push(n->l);
-        else if(n->r!=NULL)
+        if(n->r!=NULL)
           q.push(n->r);
+    }
+}
+void leftview(node *r){
+    if(r==NULL)
+     return ;
+    queue<node*> q;
+    q.push(r);
+    while(q.empty()==false){
+		int n=q.size();
+		f(n)
+        {
+          node *t=q.front();
+		  q.pop();
+		  if(i==0)
+		    cout<<t->d;
+		  if(t->l!=NULL)
+		    q.push(t->l);
+		  if(t->r!=NULL)
+		    q.push(t->r);
+		 }		 
     }
 }
 int maxwidth(node *r){
@@ -109,14 +117,22 @@ void inorder(node *root){
 }
 int main() {
 	// your code goes here
-    node *root = newnode(1);				//          1
-    root->l = newnode(2);				//             / \          /
-    root->r = newnode(3);				//	 	     2    3
-    root->l->l = newnode(4);			//          /\     \        /
-    root->l->r = newnode(5);			//         4  5		8
-    root->r->r = newnode(8);			//                 / \         /
-    root->r->r->l = newnode(6);			//                6   7  
+    /*                      1    
+  			//             / \                           
+   				 	     2    3                      
+  			//          /\     \                  
+  			//         4  5		8                       
+   			//                 / \                   
+  			//                6   7  
+    */
+	node *root = newnode(1);			
+    root->l = newnode(2);				                           
+    root->r = newnode(3);			                      
+    root->l->l = newnode(4);		                 
+    root->l->r = newnode(5);		                    
+    root->r->r = newnode(8);		                 
+    root->r->r->l = newnode(6);		
     root->r->r->r = newnode(7);
-	ancestors(root,6);
+	cout<<height(root);
     return 0;
 }
